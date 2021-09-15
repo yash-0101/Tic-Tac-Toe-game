@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac Toe Game</title>
+</head>
+<body>
+
+     <style>
+         body{
+             background: green;
+             font-family: sans-serif;
+         }
+
+         .messagesection{
+             height: 50px;
+             text-align: center;
+             color: white;
+             font-weight: bolder;
+             font-size: 20px;
+         }
+
+           .gameboard{
+
+             position: absolute;
+             top: 50%;
+             left: 50%;
+             transform: translate(-50%, -50%);
+             width: 300px;
+             height: 300px;
+           }
+
+            .row{
+                height: 32%;
+            }
+
+            .col{
+                height: 100%;
+                width: 32%;
+                border: 2px solid white;
+                float: left;
+                font-size: 70px;
+                font-weight: bolder;
+                color: white;
+                text-align: center;
+                cursor: pointer;
+            }
+
+
+     </style>
+
+     <script>
+         
+         var turn = 1;
+         var win = -1;
+         var clickCounter = 0;
+         var matrix = [
+             [-1,-1,-1],
+             [-1,-1,-1],
+             [-1,-1,-1]
+         ]
+         function playerAction(elem, row, col){
+
+            if(elem.innerHTML != "") return;
+            if(win != -1) return;
+
+            clickCounter++;
+
+            matrix[row][col] = turn;
+            if(turn == 1){
+                elem.innerHTML = "X";
+                document.getElementById("messagesection").innerHTML = "Player 2 turn";
+                turn = 2;
+            }
+
+            else if(turn == 2){
+                elem.innerHTML = "0";
+                document.getElementById("messagesection").innerHTML = "Player 1 turn";
+                turn = 1;
+            }
+
+            for(var i=0; i<3; i++){
+                //row check
+                if(matrix[i][0] == matrix[i][1] && matrix[i][1] == matrix[i][2])
+                 win = matrix[i][0];
+
+                 //col check
+                 if(matrix[0][i] == matrix[1][i] && matrix[1][i] == matrix[2][i])
+                 win = matrix[0][i];
+            }
+
+            //diagonal check
+            if(matrix[0][0] == matrix[1][1] == matrix[2][2]) win = matrix[1][1];
+            if(matrix[0][2] == matrix[1][1] ==matrix[2][0]) win = matrix[1][1];
+
+            if(win != -1){
+                document.getElementById("messagesection").innerHTML = "Player " + win + " has won the game";
+            }
+
+            if(clickCounter == 9 && win == -1){
+                document.getElementById("messagesection").innerHTML = "Game has been drawn";
+            }
+
+         }
+     </script>
+
+    <div class="messagesection" id = "messagesection"> Player 1 turn </div>
+
+    <div class ="gameboard">
+          
+        <div class ="row">
+             <div class ="col" onclick="playerAction(this, 0, 0)"></div>
+             <div class ="col" onclick="playerAction(this, 0, 1)"></div>
+             <div class ="col" onclick="playerAction(this, 0, 2)"></div>
+        </div>
+
+        <div class ="row">
+            <div class ="col" onclick="playerAction(this, 1, 0)"></div>
+            <div class ="col" onclick="playerAction(this, 1, 1)"></div>
+            <div class ="col" onclick="playerAction(this, 1, 2)"></div>
+       </div>
+
+       <div class ="row">
+            <div class ="col" onclick="playerAction(this, 2, 0)"></div>
+            <div class ="col" onclick="playerAction(this, 2, 1)"></div>
+            <div class ="col" onclick="playerAction(this, 2, 2)"></div>
+       </div>
+    </div>
+</body>
+</html>
